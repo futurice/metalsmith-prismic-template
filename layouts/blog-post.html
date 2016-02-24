@@ -1,18 +1,17 @@
 <!doctype html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <title>Blog</title>
-  </head>
+  {{> head
+    title="Blog"
+  }}
   <body>
     {{> debug }}
-    {{> header }}
+    {{> links }}
     <main class="main">
-
     {{#with prismic.blogpost.results.0.data}}
       <section>
         {{{ title.html }}}
         {{{ content.html }}}
+        <img src="{{image.url}}" alt="{{image.alt}}" width="{{image.dimensions.width}}" height="{{image.dimensions.height}}" class="medium" />
       </section>
     {{/with}}
     </main>

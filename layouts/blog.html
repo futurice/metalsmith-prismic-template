@@ -1,17 +1,15 @@
 <!doctype html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <title>Blog</title>
-  </head>
+  {{> head
+    title="Blog"
+  }}
   <body>
     {{> debug }}
-    {{> header }}
     <main class="main">
 
     {{#each prismic.blogposts.results}}
       <section>
-        <a href="TODO">{{{ data.title.html }}}</a>
+        <a href={{ uid }}>{{{ data.title.html }}}</a>
       </section>
     {{/each}}
     </main>

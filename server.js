@@ -2,12 +2,12 @@
 'use strict';
 
 var layouts = require('metalsmith-layouts');
-var less = require('metalsmith-less');
 var autoprefixer = require('metalsmith-autoprefixer');
 var markdown = require('metalsmith-markdown');
 var beautify = require('metalsmith-beautify');
 var ignore = require('metalsmith-ignore');
 var discoverPartials = require('metalsmith-discover-partials');
+var sass = require('metalsmith-sass');
 
 var cons = require('consolidate');
 var handlebars = require('handlebars');
@@ -21,18 +21,31 @@ function run() {
   });
 
   // Configure prismic links
+  // *TEMPLATE* adjust this example function to suit your prismic content and folder structures
   config.prismicLinkResolver = function(ctx, doc) {
     if (doc.isBroken) {
       return;
     }
     switch (doc.type) {
-        case 'home':
-            return 'index.html';
-        default:
+      case 'home':
+        return 'index.html';
+
+      case 'i18n-example':
+        var languageTag = doc.tags[0]; //TODO
+        var language = '';
+        if (languageTag) {
+          languageTag = languageTag.split(':');
+          language = languageTag ? '/' + languageTag[1] : '';
+        }
+
+        return language + '/' + 'index.html';
+      default:
         return '/' + doc.type + '/' +  (doc.uid || doc.slug) + '/index.html';
     }
   };
 
+  // Metalsmith plugins
+  // *TEMPLATE* switch out any plugins to fit your setup
   var plugins = {
     common: [
       // Render markdown files to html
@@ -45,9 +58,9 @@ function run() {
         //default: 'base.handlebars',
         pattern: '**/*.html'
       }),
-      // Style using less
-      less({
-        pattern: 'style/**/*.less'
+      // Style using sass
+      sass({
+        outputDir: 'style/'
       }),
       // Autoprefix styles
       autoprefixer({
@@ -66,7 +79,7 @@ function run() {
       }),
       // Ignore some superfluous files
       ignore([
-        '**/*.less'
+        '**/*.scss'
       ])
     ],
     dev: [],

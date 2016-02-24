@@ -1,11 +1,11 @@
 <!doctype html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <title>{{prismic.content.results.0.data.meta_title.json.value}}</title>
-  </head>
+  {{> head
+    title=prismic.content.results.0.data.meta_title.json.value
+  }}
   <body>
     {{> debug }}
+    {{> links }}
     <main class="main">
 
     {{#with prismic.content.results.0.data}}
@@ -13,17 +13,6 @@
         {{{ title.html }}}
         {{{ description.html }}}
       </section>
-
-      <ul class="heroes">
-      {{#each heroes.json.value}}
-          <li>
-            {{ fragments.title.value }}
-            {{#with fragments.image}}
-              <img src="{{main.url}}" alt="{{main.alt}}" width="{{main.dimensions.width}}" height="{{main.dimensions.height}}" class="medium" />
-            {{/with}}
-          </li>
-      {{/each}}
-      </ul>
     {{/with}}
     </main>
   </body>

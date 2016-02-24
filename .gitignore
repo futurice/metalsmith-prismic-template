@@ -1,4 +1,5 @@
-build/
+builds/
+metalsmith-prismic-server/
 node_modules/
 npm-debug.log
 *.sublime-project

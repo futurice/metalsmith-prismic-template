@@ -1,0 +1,46 @@
+<!doctype html>
+<html>
+  {{> head
+    title=prismic.content.results.0.data.title.json.value
+  }}
+  <body>
+    {{> debug }}
+    {{> links }}
+    <main class="main">
+
+    {{#with prismic.content.results.0.data}}
+      <section>
+        {{{ title.html }}}
+        <div>{{{ name.json.value }}}:<span id="name"></span></div>
+        <div>{{{ address.json.value }}}:<span id="address"></span></div>
+        <div>{{{ phone.json.value }}}:<span id="phone"></span></div>
+      </section>
+    {{/with}}
+    </main>
+  </body>
+</html>
+
+<script type="text/javascript">
+  var backendData = {
+    'language:en': {
+      name: 'Peter',
+      address: 'Fifth street 5',
+      phone: '040 123 4567'
+    },
+    'language:fi': {
+      name: 'Pekka',
+      address: 'Tonttukuja 5',
+      phone: '040 123 4567'
+    },
+  };
+
+  var fetchData = function(language) {
+    return backendData[language];
+  };
+
+  var language = "{{{ prismic.content.results.0.tags }}}"; //TODO
+
+  document.getElementById("name").innerHTML = fetchData(language).name;
+  document.getElementById("address").innerHTML = fetchData(language).address;
+  document.getElementById("phone").innerHTML = fetchData(language).phone;
+</script>
