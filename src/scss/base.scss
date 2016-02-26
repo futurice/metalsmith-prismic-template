@@ -1,0 +1,11 @@
+@import "./vendor/normalize";
+@import "constants";
+
+html,
+body {
+    font-size: 14px;
+    background-color: $color-bg-gray;
+    font-family: $font-regular;
+    color: $color-fg-dark;
+    padding: 10px;
+}
