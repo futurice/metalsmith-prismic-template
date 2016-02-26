@@ -8,6 +8,7 @@ var beautify = require('metalsmith-beautify');
 var ignore = require('metalsmith-ignore');
 var discoverPartials = require('metalsmith-discover-partials');
 var sass = require('metalsmith-sass');
+var ms3 = require('metalsmith-s3');
 
 var cons = require('consolidate');
 var handlebars = require('handlebars');
@@ -84,7 +85,13 @@ function run() {
     ],
     dev: [],
     preview: [],
-    build: []
+    build: [
+      s3({
+        action: 'write',
+        bucket: 'metalsmith-prismic-template.futurice.com',
+        region: 'eu-west-1'
+      })
+    ]
   };
 
   // Start server
