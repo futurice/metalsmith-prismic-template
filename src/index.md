@@ -1,6 +1,5 @@
 ---
 layout: index.html
-relativePathToRoot: ./
 languages:
   en: English
   fi: Finnish
