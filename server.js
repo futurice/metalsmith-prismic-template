@@ -8,7 +8,7 @@ var beautify = require('metalsmith-beautify');
 var ignore = require('metalsmith-ignore');
 var discoverPartials = require('metalsmith-discover-partials');
 var sass = require('metalsmith-sass');
-var ms3 = require('metalsmith-s3');
+var s3 = require('metalsmith-s3');
 
 var cons = require('consolidate');
 var handlebars = require('handlebars');
