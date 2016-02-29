@@ -14,16 +14,20 @@ var cons = require('consolidate');
 var handlebars = require('handlebars');
 
 var metalsmithPrismicServer = require('metalsmith-prismic-server');
-var config = metalsmithPrismicServer.cliConfig;
 
-function run() {
-  handlebars.registerHelper('json', function(context) {
-      return JSON.stringify(context);
-  });
+var argv = require('process').argv;
 
-  // Configure prismic links
+var plugins = List([]);
+
+var buildPlugins = plugins.push();
+
+var config = {
+  // check src/config.js in metalsmith-prismic-server for full options
+
+  prismicUrl: "https://metalsmith-prismic-template.prismic.io/api",
+
   // *TEMPLATE* adjust this example function to suit your prismic content and folder structures
-  config.prismicLinkResolver = function(ctx, doc) {
+  prismicLinkResolver (ctx, doc) {
     if (doc.isBroken) {
       return;
     }
@@ -43,11 +47,9 @@ function run() {
       default:
         return '/' + doc.type + '/' +  (doc.uid || doc.slug) + '/index.html';
     }
-  };
+  },
 
-  // Metalsmith plugins
-  // *TEMPLATE* switch out any plugins to fit your setup
-  var plugins = {
+  plugins: {
     common: [
       // Render markdown files to html
       markdown(),
@@ -83,8 +85,6 @@ function run() {
         '**/*.scss'
       ])
     ],
-    dev: [],
-    preview: [],
     build: [
       s3({
         action: 'write',
@@ -92,11 +92,22 @@ function run() {
         region: 'eu-west-1'
       })
     ]
-  };
+  }
+};
+
+function run() {
+  handlebars.registerHelper('json', function(context) {
+      return JSON.stringify(context);
+  });
 
   // Start server
-  var app = metalsmithPrismicServer.server(plugins, config);
-  app.listen();
+  if (argv[2] === 'dev') {
+    config.plugins = plugins;
+    metalsmithPrismicServer.dev(config);
+  } else {
+    config.plugins = buildPlugins;
+    metalsmithPrismicServer.prod(config);
+  }
 }
 
 if (require.main === module) {
