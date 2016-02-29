@@ -14,21 +14,28 @@ var cons = require('consolidate');
 var handlebars = require('handlebars');
 
 var metalsmithPrismicServer = require('metalsmith-prismic-server');
-var config = metalsmithPrismicServer.cliConfig;
+
 var utils = require('./utils/utils.js');
 
-function run() {
-  handlebars.registerHelper('json', function(context) {
-      return JSON.stringify(context);
-  });
+var argv = require('process').argv;
 
+var plugins = List([]);
+
+var buildPlugins = plugins.push();
+
+var config = {
+  // check src/config.js in metalsmith-prismic-server for full options
+
+  prismicUrl: "https://metalsmith-prismic-template.prismic.io/api",
+
+  // *TEMPLATE* adjust this example function to suit your prismic content and folder structures
+  prismicLinkResolver (ctx, doc) {
   // Configure metalsmith-prismic linkResolver
   // Generates prismic links and paths of prismic collections
   // Note: does not affect single prismic files
   // *TEMPLATE* adjust this example function to suit your prismic content and folder structures
   // *TEMPLATE* If ommited, links and paths will be generated with the default format of:
   // *TEMPLATE* "/<document.type>/<document.id>/<document.slug>"
-  config.prismicLinkResolver = function(ctx, doc) {
     if (doc.isBroken) {
       return;
     }
@@ -49,11 +56,9 @@ function run() {
           return '/' + doc.type + '/' +  (doc.uid || doc.slug) + '/index.html';
       }
     }
-  };
+  },
 
-  // Metalsmith plugins
-  // *TEMPLATE* switch out any plugins to fit your setup
-  var plugins = {
+  plugins: {
     common: [
       // Render markdown files to html
       markdown(),
@@ -89,8 +94,6 @@ function run() {
         '**/*.scss'
       ])
     ],
-    dev: [],
-    preview: [],
     build: [
       s3({
         action: 'write',
@@ -98,11 +101,22 @@ function run() {
         region: 'eu-west-1'
       })
     ]
-  };
+  }
+};
+
+function run() {
+  handlebars.registerHelper('json', function(context) {
+      return JSON.stringify(context);
+  });
 
   // Start server
-  var app = metalsmithPrismicServer.server(plugins, config);
-  app.listen();
+  if (argv[2] === 'dev') {
+    config.plugins = plugins;
+    metalsmithPrismicServer.dev(config);
+  } else {
+    config.plugins = buildPlugins;
+    metalsmithPrismicServer.prod(config);
+  }
 }
 
 if (require.main === module) {
