@@ -12,6 +12,7 @@
     "install": "npm install metalsmith-prismic-server",
     "test": "echo \"No tests needed\"",
     "dev": "node server.js dev",
+    "build": "node server.js build",
     "start": "node server.js prod"
   },
   "engines": {

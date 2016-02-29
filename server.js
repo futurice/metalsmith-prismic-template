@@ -19,10 +19,6 @@ var utils = require('./utils/utils.js');
 
 var argv = require('process').argv;
 
-var plugins = List([]);
-
-var buildPlugins = plugins.push();
-
 var config = {
   // check src/config.js in metalsmith-prismic-server for full options
 
@@ -95,11 +91,11 @@ var config = {
       ])
     ],
     build: [
-      s3({
-        action: 'write',
-        bucket: 'metalsmith-prismic-template.futurice.com',
-        region: 'eu-west-1'
-      })
+      // s3({
+      //   action: 'write',
+      //   bucket: 'metalsmith-prismic-template.futurice.com',
+      //   region: 'eu-west-1'
+      // })
     ]
   }
 };
@@ -110,12 +106,18 @@ function run() {
   });
 
   // Start server
-  if (argv[2] === 'dev') {
-    config.plugins = plugins;
-    metalsmithPrismicServer.dev(config);
-  } else {
-    config.plugins = buildPlugins;
-    metalsmithPrismicServer.prod(config);
+  switch (argv[2]) {
+    case 'dev':
+      metalsmithPrismicServer.dev(config);
+      break;
+    case 'prod':
+      metalsmithPrismicServer.prod(config);
+      break;
+    case 'build':
+      metalsmithPrismicServer.build(config);
+      break;
+    default:
+      console.error(`invalid command '${argv[2]}'`);
   }
 }
 
