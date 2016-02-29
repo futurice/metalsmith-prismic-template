@@ -8,40 +8,46 @@ var beautify = require('metalsmith-beautify');
 var ignore = require('metalsmith-ignore');
 var discoverPartials = require('metalsmith-discover-partials');
 var sass = require('metalsmith-sass');
-var ms3 = require('metalsmith-s3');
+var s3 = require('metalsmith-s3');
 
 var cons = require('consolidate');
 var handlebars = require('handlebars');
 
 var metalsmithPrismicServer = require('metalsmith-prismic-server');
 var config = metalsmithPrismicServer.cliConfig;
+var utils = require('./utils/utils.js');
 
 function run() {
   handlebars.registerHelper('json', function(context) {
       return JSON.stringify(context);
   });
 
-  // Configure prismic links
+  // Configure metalsmith-prismic linkResolver
+  // Generates prismic links and paths of prismic collections
+  // Note: does not affect single prismic files
   // *TEMPLATE* adjust this example function to suit your prismic content and folder structures
+  // *TEMPLATE* If ommited, links and paths will be generated with the default format of:
+  // *TEMPLATE* "/<document.type>/<document.id>/<document.slug>"
   config.prismicLinkResolver = function(ctx, doc) {
     if (doc.isBroken) {
       return;
     }
-    switch (doc.type) {
-      case 'home':
-        return 'index.html';
 
-      case 'i18n-example':
-        var languageTag = doc.tags[0]; //TODO
-        var language = '';
-        if (languageTag) {
-          languageTag = languageTag.split(':');
-          language = languageTag ? '/' + languageTag[1] : '';
+    var language = utils.getLanguageFromTags(doc);
+    if (language) {
+      switch (doc.type) {
+        case 'i18n-example':
+          return '/' + language + '/' + 'index.html';
+        default:
+          return '/' + language + '/' + doc.type + '/' +  (doc.uid || doc.slug) + '/index.html';
         }
-
-        return language + '/' + 'index.html';
-      default:
-        return '/' + doc.type + '/' +  (doc.uid || doc.slug) + '/index.html';
+    } else {
+      switch (doc.type) {
+        case 'home':
+          return 'index.html';
+        default:
+          return '/' + doc.type + '/' +  (doc.uid || doc.slug) + '/index.html';
+      }
     }
   };
 

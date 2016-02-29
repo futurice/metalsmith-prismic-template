@@ -1,6 +1,5 @@
 ---
 layout: i18n-example.html
-relativePathToRoot: ../
 languages:
   en: English
   fi: Finnish

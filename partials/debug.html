@@ -3,7 +3,7 @@
     layout: {{{ json layout }}},
     filename: {{{ json filename }}},
     prismic: {{#if prismic }} {{{ json prismic }}} {{else}} null {{/if}},
-    relativePathToRoot: {{#if relativePathToRoot }} {{{ json relativePathToRoot }}} {{else}} null {{/if}}
+    language: '{{{language}}}'
   };
   console.log('Template data:', debugData);
 </script>

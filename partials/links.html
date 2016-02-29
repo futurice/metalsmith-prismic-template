@@ -1,10 +1,16 @@
 <ul>
-{{#each languages }}
+  {{#each languages }}
+    <li>
+      <a href=/{{ @key }}>{{ this }} Contact</a>
+    </li>
+  {{/each }}
   <li>
-    <a href={{ ../relativePathToRoot }}{{ @key }}>{{ this }}</a>
+    <a href="/">Home</a>
   </li>
-{{/each }}
   <li>
-    <a href="{{ ../relativePathToRoot}}blog-post">Blog</a>
+    <a href="/blog-post/">Blog</a>
+  </li>
+  <li>
+    <a href="/fi/i18n-blog-post/">Finnish Blog</a>
   </li>
 </ul>
