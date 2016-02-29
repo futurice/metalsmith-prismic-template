@@ -22,7 +22,7 @@ Fragments are gathered in tab sections (e.g. "Main information", "Meta"); this i
 
 Fragments in other tab sections than the main section should be prefixed with the tab name to make the field's purpose clear, e.g. "meta_title" for the HTML `<title>` element value. The only exception to this is the meta fragment's `uid` field.
 
-**!Important: Do not rename fragment fields!** Removing or renaming fields will not remove, or even hide, the existing content in existing documents. This means that they will be returned by the API, but are not accessible in the editor.
+**Important: Removing or renaming fragment fields will not automatically update the contents of the documents** Removing or renaming fields will not remove, nor hide, the existing content in existing documents. This means that they will be returned by the API, but are not accessible in the editor. Saving and publishing a new version of the document will remove any fields not present in the fragment, but until that is done for each document with a specific type, the API results and fragment field definition might be out of sync.
 
 
 
