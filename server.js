@@ -24,32 +24,49 @@ var config = {
 
   prismicUrl: "https://metalsmith-prismic-template.prismic.io/api",
 
-  // *TEMPLATE* adjust this example function to suit your prismic content and folder structures
+  /**
+   * Configure metalsmith-prismic linkResolver
+   * Generates prismic links and paths for the files in a prismic collections
+   *
+   * E.g. The paths for each blog-post in the blog-post.md collection will be generated as:
+   *      /blog-post/my-second-blog-post/index.html
+   *
+   * E.g. tThe paths for prismic author links will be generated as:
+   *      /author/bob/
+   *
+   * Note: the linkResolver does not affect single prismic files
+   *
+   * *TEMPLATE* adjust this example function to suit your prismic content and folder structures
+   * *TEMPLATE* If omitted, links and paths will be generated with the default format of:
+   * *TEMPLATE* "/<document.type>/<document.id>/<document.slug>"
+   */
   prismicLinkResolver (ctx, doc) {
-  // Configure metalsmith-prismic linkResolver
-  // Generates prismic links and paths of prismic collections
-  // Note: does not affect single prismic files
-  // *TEMPLATE* adjust this example function to suit your prismic content and folder structures
-  // *TEMPLATE* If ommited, links and paths will be generated with the default format of:
-  // *TEMPLATE* "/<document.type>/<document.id>/<document.slug>"
     if (doc.isBroken) {
       return;
     }
 
+    // For prismic collection files append 'index.html'
+    // Leave it out for prismic link paths
+    var filename = doc.data ? 'index.html' : '';
+
     var language = utils.getLanguageFromTags(doc);
     if (language) {
+      // *TEMPLATE-i18n* Use this linkResolver to generate i18n-links based on languages tags defined in Prismic
+      // *TEMPLATE-i18n* E.g. The paths for each blog-post in the fi/i18n-blog-post.md collection will be generated as:
+      // *TEMPLATE-i18n*      /fi/i18n-blog-post/mun-toka-blogipostaus/index.html
+      // *TEMPLATE-i18n* Note: if all documents in prismic have a language tag, the root needs to handled manually
       switch (doc.type) {
         case 'i18n-example':
-          return '/' + language + '/' + 'index.html';
+          return '/' + language + '/' + filename;
         default:
-          return '/' + language + '/' + doc.type + '/' +  (doc.uid || doc.slug) + '/index.html';
-        }
+          return '/' + language + '/' + doc.type + '/' +  (doc.uid || doc.slug) + '/' + filename;
+      }
     } else {
       switch (doc.type) {
         case 'home':
-          return 'index.html';
+          return '/' + filename;
         default:
-          return '/' + doc.type + '/' +  (doc.uid || doc.slug) + '/index.html';
+          return '/' + doc.type + '/' +  (doc.uid || doc.slug) + '/' + filename;
       }
     }
   },
