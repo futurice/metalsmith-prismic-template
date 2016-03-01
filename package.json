@@ -29,8 +29,8 @@
     "metalsmith-ignore": "^0.1.2",
     "metalsmith-layouts": "^1.4.2",
     "metalsmith-markdown": "^0.2.1",
-    "metalsmith-prismic-server": "prealpha",
-    "metalsmith-s3": "^0.0.2",
+    "metalsmith-prismic-server": "^0.1.0",
+    "metalsmith-s3": "git://github.com/mwishek/metalsmith-s3#9ee6df8f7a3b0bdedee616e248c5da0c3a0b2116",
     "metalsmith-sass": "^1.3.0",
     "normalize.css": "^3.0.3"
   }
