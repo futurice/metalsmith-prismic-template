@@ -90,12 +90,12 @@ var config = {
         '**/*.scss'
       ])
     ],
-    build: [
-      // s3({
-      //   action: 'write',
-      //   bucket: 'metalsmith-prismic-template.futurice.com',
-      //   region: 'eu-west-1'
-      // })
+    deploy: [
+      s3({
+        action: 'write',
+        bucket: 'metalsmith-prismic-template.futurice.com',
+        region: 'eu-west-1'
+      })
     ]
   }
 };
@@ -114,7 +114,7 @@ function run() {
       metalsmithPrismicServer.prod(config);
       break;
     case 'build':
-      metalsmithPrismicServer.build(config);
+      metalsmithPrismicServer.build(config, []);
       break;
     default:
       console.error(`invalid command '${argv[2]}'`);
