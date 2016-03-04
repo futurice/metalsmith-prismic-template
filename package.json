@@ -20,12 +20,9 @@
     "npm": "3.5.3"
   },
   "dependencies": {
-    "consolidate": "^0.13.1",
     "handlebars": "^4.0.5",
     "metalsmith-autoprefixer": "^1.1.0",
     "metalsmith-beautify": "0.0.7",
-    "metalsmith-discover-helpers": "^0.1.0",
-    "metalsmith-discover-partials": "^0.1.0",
     "metalsmith-ignore": "^0.1.2",
     "metalsmith-layouts": "^1.4.2",
     "metalsmith-markdown": "^0.2.1",

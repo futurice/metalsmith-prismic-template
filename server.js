@@ -1,26 +1,23 @@
 #!/usr/bin/env node
 'use strict';
 
-var layouts = require('metalsmith-layouts');
 var autoprefixer = require('metalsmith-autoprefixer');
-var markdown = require('metalsmith-markdown');
 var beautify = require('metalsmith-beautify');
 var ignore = require('metalsmith-ignore');
-var discoverPartials = require('metalsmith-discover-partials');
-var sass = require('metalsmith-sass');
+var layouts = require('metalsmith-layouts');
+var markdown = require('metalsmith-markdown');
 var s3 = require('metalsmith-s3');
-
-var cons = require('consolidate');
-var handlebars = require('handlebars');
+var sass = require('metalsmith-sass');
 
 var metalsmithPrismicServer = require('metalsmith-prismic-server');
 
+var handlebarsHelpers = require('./plugins/handlebars-helpers');
 var utils = require('./utils/utils.js');
 
 var argv = require('process').argv;
 
 var config = {
-  // check src/config.js in metalsmith-prismic-server for full options
+  // See src/config.js in metalsmith-prismic-server for all options
 
   prismicUrl: "https://metalsmith-prismic-template.prismic.io/api",
 
@@ -31,7 +28,7 @@ var config = {
    * E.g. The paths for each blog-post in the blog-post.md collection will be generated as:
    *      /blog-post/my-second-blog-post/index.html
    *
-   * E.g. tThe paths for prismic author links will be generated as:
+   * E.g. The paths for prismic author links will be generated as:
    *      /author/bob/
    *
    * Note: the linkResolver does not affect single prismic files
@@ -71,16 +68,18 @@ var config = {
     }
   },
 
+  // Metalsmith plugins passed to metalsmithPrismicServer
   plugins: {
     common: [
       // Render markdown files to html
       markdown(),
+      // Register handlebars helpers
+      handlebarsHelpers(),
       // Render with handlebars templates
       layouts({
         engine: 'handlebars',
         directory: 'layouts',
         partials: 'partials',
-        //default: 'base.handlebars',
         pattern: '**/*.html'
       }),
       // Style using sass
@@ -89,11 +88,11 @@ var config = {
       }),
       // Autoprefix styles
       autoprefixer({
-        // Supporting browsers based on these versions
+        // Support browsers based on these versions
         browsers: ['last 2 versions',
                    '> 5%']
       }),
-      // Make output pretty
+      // Prettify output
       beautify({
         indent_size: 2,
         indent_char: ' ',
@@ -102,7 +101,7 @@ var config = {
         css: true,
         html: true
       }),
-      // Ignore some superfluous files
+      // Ignore some files
       ignore([
         '**/*.scss'
       ])
@@ -118,10 +117,6 @@ var config = {
 };
 
 function run() {
-  handlebars.registerHelper('json', function(context) {
-      return JSON.stringify(context);
-  });
-
   // Start server
   switch (argv[2]) {
     case 'dev':
