@@ -7,9 +7,16 @@ An opinionated, bare bones template for static site generation from [prismic.io]
 * Documentation on how to use this template and best practices
 * [Handlebars](https://http://handlebarsjs.com/) templates
 * [Sass](http://sass-lang.com/) styling
-* [metalsmith-prismic-server](https://github.com/futurice/metalsmith-prismic-server) Implements the client side of the Prismic io webhook "interfaces". TODO
-* TODO S3
+* [metalsmith-prismic-server](https://github.com/futurice/metalsmith-prismic-server)
+  * Provides a webhook that Prismic.io can trigger to build and deploy on CMS content changes
+  * Provides a server endpoint to preview unpublished content in Prismic.io
+  * Provides a live reloading development mode that fetches Prismic.io content
+* [Deployment to AWS S3](https://github.com/mwishek/metalsmith-s3)
 * [Prismic.io example content](https://metalsmith-prismic-template.prismic.io/)
+  * [Example content in API browser](https://metalsmith-prismic-template.prismic.io/api/)
+  * [Generated example site deployed to S3](http://metalsmith-prismic-template.futurice.com/)
+  * [Preview of unpublished content](https://metalsmith-prismic.herokuapp.com/builds/master/)
+
 
 TODO overview image
 
@@ -37,18 +44,18 @@ TODO overview image
     * `AWS_SECRET_ACCESS_KEY={AWS_SECRET_ACCESS_KEY}`
     * `S3_BUCKET={S3_BUCKET_NAME}`
     * `S3_REGION={S3_END_POINT}`, e.g. 'eu-west-1'
-* Adjust the template to your needs (marked with *TEMPLATE*)
+* Adjust the template to your needs (marked with \*TEMPLATE\*)
   * Adjust the metalsmith plugins in `server.js`
   * Configure the metalsmith-prismic linkResolver in `server.js` that generates prismic links and paths of prismic collections
   * Adjust the `docs/prismic-conventions.md`
-  * Adjust the `src/`, `/layouts` and `partials/` directories' according to your content
-* TODO what else?
+  * Structure the `src/`, `/layouts` and `partials/` directories' according to your content
 
 ### Directory structure
 
 * `builds/`: Output directory for built sites
 * `layouts/`: Page layouts
 * `partials/`: Embeddable page elements
+* `plugins/`: Custom metalsmith plugins
 * `src/`: Source files which will be transformed to output
 * `utils/`: Utility functions
 * `server.js`: Server and build logic with metalsmith-plugins

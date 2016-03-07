@@ -1,29 +1,34 @@
-# Prismic content conventions
+# Prismic.io content conventions
 
-*TEMPLATE* These are our template's recommeneded conventions, adjust to these to fit your needs. Some conventions are examples and are not demonstrated in this template. Please keep these updated with any other good conventions.
+\*TEMPLATE\* These are our template's recommeneded conventions, adjust to these to fit your needs. Some conventions are examples and are not demonstrated in this template. Please keep these updated with any other good conventions.
 
-[Prismic.io custom types](https://prismic.io/docs/custom-types) are the way to define the Prismic content's document types, e.g. 'Blog post' or 'Author'. The custom types structure how the content is created in the editor UI and how it is returned by the API.
+## Prismic.io Custom types
+
+[Prismic.io custom types](https://prismic.io/docs/custom-types) are the way to define the Prismic content's document types, e.g. 'Blog post' or 'Author'. The custom types structure how the content is created in the editor UI and how it is returned by the API. The API's returned content can be viewed with [Prismic's API browser](https://metalsmith-prismic-template.prismic.io/api/documents/search?ref=Vsz0KiUAAB0AEhiu&q=%5B%5B%3Ad+%3D+at(document.type%2C+%22i18n-blog-post%22)%5D%5D&q=%5B%5B%3Ad+%3D+at(document.tags%2C+%5B%22language%3Afi%22%5D)%5D%5D#format=html).
 
 Design your custom types carefully, it’s tedious to change later when you have content and collaborate with the content creators early!
 
-Custom types are defined as JSON files in the Prismic.io settings and should follow the conventions outlined below throughout the project.
+Prismic does not version custom types. Just to be safe, it might be a good idea to manually copy them at some point to this repository.
+
+Custom types are defined as JSON files in the Prismic.io settings and should in this project follow the conventions outlined below.
 
 
+
+## Prismic.io Fragments
+
+Fragments are gathered in tab sections (e.g. "Main information", "Meta"); this is only used to organize fragment by tabs in the writing-room's editor, and doesn't impact the outcome through the API.
 
 ## Naming conventions
 
-### Custom types
 
-Custom type names should be written in lowercase dash-separated strings (kebab-case), e.g. `blog-post`.
-
-### Fragments
-
-Fragments are gathered in tab sections (e.g. "Main information", "Meta"); this is only used to organize fragment by tabs in the writing-room's editor, and doesn't impact the outcome through the API. Within the tab names, the fragments should be written in lowercase underscore_separated strings (snake_case), e.g. `link_text`. This is to differentiate it from JavaScript camelCase and file naming conventions.
-
-Fragments in other tab sections than the main section should be prefixed with the tab name to make the field's purpose clear, e.g. "meta_title" for the HTML `<title>` element value. The only exception to this is the meta fragment's `uid` field.
+| Prismic element               | Naming                       | Example  |
+| ----------------------------- |------------------------------| ---------|
+| Custom types                  | kebab-case                   | `blog-post` |
+| Fragments in Main section     | snake_case                   |  `title` for `<title>` element |
+| Fragments in other sections   | {SECTION_NAME}_snake_case    |  `meta_title` for `<title>` element |
+| uid fragments                 | snake_case                   |  `uid` |
 
 **Important: Removing or renaming fragment fields will not automatically update the contents of the documents** Removing or renaming fields will not remove, nor hide, the existing content in existing documents. This means that they will be returned by the API, but are not accessible in the editor. Saving and publishing a new version of the document will remove any fields not present in the fragment, but until that is done for each document with a specific type, the API results and fragment field definition might be out of sync.
-
 
 
 
@@ -46,16 +51,7 @@ Each page can contain following metadata properties:
 
 Links should **not** be defined as a `StructuredText` fields, unless links are directly part of a longer piece of content because it makes the content creator UI quite cumbersome. Additionally it makes it difficult to style the link or separate links from text in the templates.
 
-Instead links should be defined as groups with two fields `target` and `text` which contain the link target and link text. Link could also include additional fields like `image` or `popup` to further control the link behavior.
-
-If due to nesting restrictions the link cannot be defined as a group, the link should be composed of multiple fields, each one prefixed with the link name. For example:
-
- * `author_link_target`
- * `author_link_text`
-
-Note: Anchor tags have to be manually added to links in the templates
-
-Example of dedicated link group:
+Instead links should be defined as groups with two fields `target` and `text` which contain the link target and link text. See Link could also include additional fields like `image` or `popup` to further control the link behavior. For example:
 
 ```json
 {
@@ -84,36 +80,12 @@ Example of dedicated link group:
 }
 ```
 
-Example of non-nested element
+If due to nesting restrictions the link cannot be defined as a group, the link should be composed of multiple fields, each one prefixed with the link name, e.g. `author_link_target`.
 
-```json
-{
-  "author_link" : {
-    "type": "Group",
-    "config": {
-      "fields": {
-        "author_link_target" : {
-          "type" : "Link",
-          "config" : {
-            "select" : "document",
-            "customtypes" : [ "author" ],
-            "placeholder" : "Select blog post authors..."
-          }
-        },
-        "author_link_text" : {
-          "type": "Text",
-          "config" : {
-            "placeholder" : "Author link text here...",
-            "label" : "Author link text"
-          }
-        }
-      }
-    }
-  }
-}
-```
+Note: Anchor tags have to be manually added to links in the templates.
 
-### StructuredText styles
+
+### StructuredText styling
 
 To keep StructuredText field styling consistent across the application, content creators should be given as limited options as possible for styling. Also don’t give in to the temptation of using structured text for everything.
 
@@ -158,6 +130,10 @@ Should be used for full content pages, such as blog posts. Includes all styling 
     * You can’t put a group within a group
     * You can’t use the array notation within a group
 
+
+## Media library
+
+“Tag” your images and documents in the media library by writing something in the “Private notes” fields. Otherwise it will be hard to find anything once there is a lot of content.
 
 
 ## i18n conventions
