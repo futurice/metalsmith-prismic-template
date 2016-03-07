@@ -49,7 +49,7 @@ var config = {
 
     // For prismic collection files append 'index.html'
     // Leave it out for prismic link paths
-    var filename = 'index.html';
+    var filename = doc.data ? 'index.html' : '';
 
     var language = utils.getLanguageFromTags(doc);
     if (language) {
