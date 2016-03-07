@@ -7,8 +7,7 @@ function getLanguageFromTags(doc) {
     tag = tag.split(':');
     if (tag[0] === 'language') {
       if (languageTag) {
-        // TODO make sure this breaks things.
-        // throw `Document ${doc.uid} has more than one language tag.`;
+        throw `Document ${doc.uid} has more than one language tag.`;
       }
       languageTag = tag[1];
     }

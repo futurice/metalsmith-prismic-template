@@ -1,69 +1,90 @@
 #!/usr/bin/env node
 'use strict';
 
-var layouts = require('metalsmith-layouts');
+// Setup env variables from local .env file. After this call, all variables
+// from .env file can be access via `process.env`.
+var dotEnvLoaded = require('dotenv').config({
+    silent: true,
+});
+console.log('.env file loaded:', dotEnvLoaded);
+
 var autoprefixer = require('metalsmith-autoprefixer');
-var markdown = require('metalsmith-markdown');
 var beautify = require('metalsmith-beautify');
 var ignore = require('metalsmith-ignore');
-var discoverPartials = require('metalsmith-discover-partials');
-var sass = require('metalsmith-sass');
+var layouts = require('metalsmith-layouts');
+var markdown = require('metalsmith-markdown');
 var s3 = require('metalsmith-s3');
-
-var cons = require('consolidate');
-var handlebars = require('handlebars');
+var sass = require('metalsmith-sass');
 
 var metalsmithPrismicServer = require('metalsmith-prismic-server');
 
+var handlebarsHelpers = require('./plugins/handlebars-helpers');
 var utils = require('./utils/utils.js');
 
 var argv = require('process').argv;
 
 var config = {
-  // check src/config.js in metalsmith-prismic-server for full options
+  // See src/config.js in metalsmith-prismic-server for all options
 
-  prismicUrl: "https://metalsmith-prismic-template.prismic.io/api",
-
-  // *TEMPLATE* adjust this example function to suit your prismic content and folder structures
+  /**
+   * Configure metalsmith-prismic linkResolver
+   * Generates prismic links and paths for the files in a prismic collections
+   *
+   * E.g. The paths for each blog-post in the blog-post.md collection will be generated as:
+   *      /blog-post/my-second-blog-post/index.html
+   *
+   * E.g. The paths for prismic author links will be generated as:
+   *      /author/bob/
+   *
+   * Note: the linkResolver does not affect single prismic files
+   *
+   * *TEMPLATE* adjust this example function to suit your prismic content and folder structures
+   * *TEMPLATE* If omitted, links and paths will be generated with the default format of:
+   * *TEMPLATE* "/<document.type>/<document.id>/<document.slug>"
+   */
   prismicLinkResolver (ctx, doc) {
-  // Configure metalsmith-prismic linkResolver
-  // Generates prismic links and paths of prismic collections
-  // Note: does not affect single prismic files
-  // *TEMPLATE* adjust this example function to suit your prismic content and folder structures
-  // *TEMPLATE* If ommited, links and paths will be generated with the default format of:
-  // *TEMPLATE* "/<document.type>/<document.id>/<document.slug>"
     if (doc.isBroken) {
       return;
     }
 
+    // For prismic collection files append 'index.html'
+    // Leave it out for prismic link paths
+    var filename = doc.data ? 'index.html' : '';
+
     var language = utils.getLanguageFromTags(doc);
     if (language) {
+      // *TEMPLATE-i18n* Use this linkResolver to generate i18n-links based on languages tags defined in Prismic
+      // *TEMPLATE-i18n* E.g. The paths for each blog-post in the fi/i18n-blog-post.md collection will be generated as:
+      // *TEMPLATE-i18n*      /fi/i18n-blog-post/mun-toka-blogipostaus/index.html
+      // *TEMPLATE-i18n* Note: if all documents in prismic have a language tag, the root needs to handled manually
       switch (doc.type) {
         case 'i18n-example':
-          return '/' + language + '/' + 'index.html';
+          return '/' + language + '/' + filename;
         default:
-          return '/' + language + '/' + doc.type + '/' +  (doc.uid || doc.slug) + '/index.html';
-        }
+          return '/' + language + '/' + doc.type + '/' +  (doc.uid || doc.slug) + '/' + filename;
+      }
     } else {
       switch (doc.type) {
         case 'home':
-          return 'index.html';
+          return '/' + filename;
         default:
-          return '/' + doc.type + '/' +  (doc.uid || doc.slug) + '/index.html';
+          return '/' + doc.type + '/' +  (doc.uid || doc.slug) + '/' + filename;
       }
     }
   },
 
+  // Metalsmith plugins passed to metalsmithPrismicServer
   plugins: {
     common: [
       // Render markdown files to html
       markdown(),
+      // Register handlebars helpers
+      handlebarsHelpers(),
       // Render with handlebars templates
       layouts({
         engine: 'handlebars',
         directory: 'layouts',
         partials: 'partials',
-        //default: 'base.handlebars',
         pattern: '**/*.html'
       }),
       // Style using sass
@@ -72,11 +93,11 @@ var config = {
       }),
       // Autoprefix styles
       autoprefixer({
-        // Supporting browsers based on these versions
+        // Support browsers based on these versions
         browsers: ['last 2 versions',
                    '> 5%']
       }),
-      // Make output pretty
+      // Prettify output
       beautify({
         indent_size: 2,
         indent_char: ' ',
@@ -85,7 +106,7 @@ var config = {
         css: true,
         html: true
       }),
-      // Ignore some superfluous files
+      // Ignore some files
       ignore([
         '**/*.scss'
       ])
@@ -101,10 +122,6 @@ var config = {
 };
 
 function run() {
-  handlebars.registerHelper('json', function(context) {
-      return JSON.stringify(context);
-  });
-
   // Start server
   switch (argv[2]) {
     case 'dev':
