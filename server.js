@@ -1,6 +1,13 @@
 #!/usr/bin/env node
 'use strict';
 
+// Setup env variables from local .env file. After this call, all variables
+// from .env file can be access via `process.env`.
+var dotEnvLoaded = require('dotenv').config({
+    silent: true,
+});
+console.log('.env file loaded:', dotEnvLoaded);
+
 var autoprefixer = require('metalsmith-autoprefixer');
 var beautify = require('metalsmith-beautify');
 var ignore = require('metalsmith-ignore');
@@ -18,8 +25,6 @@ var argv = require('process').argv;
 
 var config = {
   // See src/config.js in metalsmith-prismic-server for all options
-
-  prismicUrl: "https://metalsmith-prismic-template.prismic.io/api",
 
   /**
    * Configure metalsmith-prismic linkResolver

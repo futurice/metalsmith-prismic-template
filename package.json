@@ -20,6 +20,7 @@
     "npm": "3.5.3"
   },
   "dependencies": {
+    "dotenv": "^2.0.0",
     "handlebars": "^4.0.5",
     "metalsmith-autoprefixer": "^1.1.0",
     "metalsmith-beautify": "0.0.7",

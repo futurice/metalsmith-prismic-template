@@ -16,11 +16,12 @@ TODO overview image
 ## How to use this template
 
 * Fork this template.
+* Use `.env.tmpl` to create `.env`
 * Set up a Prismic.io
   * Create a repository
-  * Add tokens:
-    * `export PRISMIC_URL='https://{APP_NAME}.cdn.prismic.io/api'`
-    * `export PRISMIC_TOKEN='{PRISMIC_TOKEN}'`
+  * Add tokens to `.env`:
+    * `PRISMIC_URL=https://{APP_NAME}.cdn.prismic.io/api`
+    * `PRISMIC_TOKEN={PRISMIC_TOKEN}`
   * Setup preview:
     * TODO
   * Setup webhooks:
@@ -31,11 +32,11 @@ TODO overview image
   * Create an account
   * Create IAM tokens
   * TODO?
-  * Add tokens:
-    * `export AWS_ACCESS_KEY_ID='{S3_ACCESS_KEY_ID}'`
-    * `export AWS_SECRET_ACCESS_KEY='{S3_SECRET_ACCESS_KEY}'`
-    * `export S3_BUCKET='{S3_BUCKET_NAME}'`
-    * `export S3_REGION='{S3_END_POINT}'`, e.g. 'eu-west-1'
+  * Add tokens to `.env`:
+    * `AWS_ACCESS_KEY_ID={AWS_ACCESS_KEY_ID}`
+    * `AWS_SECRET_ACCESS_KEY={AWS_SECRET_ACCESS_KEY}`
+    * `S3_BUCKET={S3_BUCKET_NAME}`
+    * `S3_REGION={S3_END_POINT}`, e.g. 'eu-west-1'
 * Adjust the template to your needs (marked with *TEMPLATE*)
   * Adjust the metalsmith plugins in `server.js`
   * Configure the metalsmith-prismic linkResolver in `server.js` that generates prismic links and paths of prismic collections
