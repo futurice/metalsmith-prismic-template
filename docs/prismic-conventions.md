@@ -8,7 +8,7 @@
 
 Design your custom types carefully, it’s tedious to change later when you have content and collaborate with the content creators early!
 
-Prismic does not version custom types. Just to be safe, it might be a good idea to manually copy them at some point to this repository.
+Prismic does not version custom types. Just to be safe, it might be a good idea to keep manual copies in `prismic-custom-types`.
 
 Custom types are defined as JSON files in the Prismic.io settings and should in this project follow the conventions outlined below.
 
