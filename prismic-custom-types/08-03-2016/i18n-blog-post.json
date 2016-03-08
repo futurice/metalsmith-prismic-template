@@ -1,0 +1,56 @@
+{
+  "Main information" : {
+    "title" : {
+      "type" : "StructuredText",
+      "config" : {
+        "single" : "heading1",
+        "placeholder" : "Blog post title here..."
+      }
+    },
+    "content" : {
+      "type" : "StructuredText",
+      "config" : {
+        "multi" : "paragraph,strong,em",
+        "placeholder" : "Blog post content here..."
+      }
+    },
+    "image" : {
+      "type" : "Image",
+      "fieldset" : "Image 1360x530/600x600 (*)",
+      "config" : {
+        "constraint" : {
+          "width" : 1360,
+          "height" : 530
+        },
+        "thumbnails" : [ {
+          "name" : "Mobile",
+          "width" : 600,
+          "height" : 600
+        } ]
+      }
+    },
+    "authors_link" : {
+      "type" : "Group",
+      "config" : {
+        "repeat" : false,
+        "fields" : {
+          "target" : {
+            "type" : "Link",
+            "config" : {
+              "select" : "document",
+              "customtypes" : [ "author" ],
+              "placeholder" : "Select blog post authors..."
+            }
+          },
+          "text" : {
+            "type" : "Text",
+            "config" : {
+              "placeholder" : "Author link text here...",
+              "label" : "Author link text"
+            }
+          }
+        }
+      }
+    }
+  }
+}

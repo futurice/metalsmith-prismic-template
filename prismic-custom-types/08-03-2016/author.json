@@ -1,0 +1,27 @@
+{
+  "Author" : {
+    "name" : {
+      "type" : "StructuredText",
+      "config" : {
+        "single" : "heading1",
+        "placeholder" : "Author name here..."
+      }
+    },
+    "description" : {
+      "type" : "StructuredText",
+      "config" : {
+        "multi" : "paragraph,strong,em",
+        "placeholder" : "Author description here..."
+      }
+    }
+  },
+  "Metadata" : {
+    "uid" : {
+      "type" : "UID",
+      "config" : {
+        "label" : "Unique identifier",
+        "placeholder" : "Unique identifier here..."
+      }
+    }
+  }
+}
