@@ -17,7 +17,7 @@ An opinionated, bare bones template for static site generation from [prismic.io]
   * [Generated example site deployed to S3](http://metalsmith-prismic-template.futurice.com/)
   * [Published content also running in Heroku](https://metalsmith-prismic.herokuapp.com/builds/preview/master/)
 
-TODO overview image
+![overview architecture](docs/architecture.svg)
 
 ## How to use this template
 
@@ -36,7 +36,7 @@ TODO overview image
     * Preview url: https://{HEROKU_APP_NAME}.herokuapp.com/preview
   * Setup webhooks in Prismic settings
     * URL: https://{HEROKU_APP_NAME}.herokuapp.com/build
-    * Secret: {[Generate a random 'secret'](https://www.google.com/q=random+key+generator)}
+    * Secret: {[Generate a random 'secret'](https://www.google.com/search?q=random+key+generator)}
   * Add tokens to `.env`
     * `PRISMIC_URL=https://{PRISMIC_APP_NAME}.prismic.io/api`
     * `PRISMIC_SECRET={PRISMIC_WEBHOOK_SECRET}`
