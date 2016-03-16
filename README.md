@@ -81,4 +81,3 @@ An opinionated, bare bones template for static site generation from [prismic.io]
 * `utils/`: Utility functions
 * `server.js`: Server and build logic with metalsmith-plugins
 
-TODO license
