@@ -17,7 +17,7 @@ An opinionated, bare bones template for static site generation from [prismic.io]
   * [Generated example site deployed to S3](http://metalsmith-prismic-template.futurice.com/)
   * [Published content also running in Heroku](https://metalsmith-prismic.herokuapp.com/builds/preview/master/)
 
-![overview architecture](docs/architecture.svg)
+![overview architecture](docs/architecture.png)
 
 ## How to use this template
 
