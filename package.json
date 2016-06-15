@@ -2,8 +2,8 @@
   "name": "metalsmith-prismic-template",
   "version": "0.0.1",
   "description": "Metalsmith prismic template",
-  "license": "TODO",
-  "author": "Futurice",
+  "license": "MIT",
+  "author": "Futurice Ltd",
   "repository": {
     "type": "git",
     "url": "https://github.com/futurice/metalsmith-prismic-template.git"
