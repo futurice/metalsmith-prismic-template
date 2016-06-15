@@ -81,3 +81,6 @@ An opinionated, bare bones template for static site generation from [prismic.io]
 * `utils/`: Utility functions
 * `server.js`: Server and build logic with metalsmith-plugins
 
+## License and Credits
+
+Metalsmith-prismic-template is licensed with [MIT License](LICENSE.md). It was developed by Futurice in co-operation with our customers [Finavia](http://www.finavia.fi/) and [Clear Funding](http://clearfunding.com/).
