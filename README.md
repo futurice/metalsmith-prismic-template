@@ -81,6 +81,12 @@ An opinionated, bare bones template for static site generation from [prismic.io]
 * `utils/`: Utility functions
 * `server.js`: Server and build logic with metalsmith-plugins
 
+### Alternative deployments
+
+ * Azure Storage
+   * Replace `metalsmith-s3` with [`metalsmith-azure-storage`](https://github.com/futurice/metalsmith-azure-storage) in `package.json` and `server.js`
+   * Follow instructions in [documentation](https://github.com/futurice/metalsmith-azure-storage) on how to configure the Azure Storeage plugin
+
 ## License and Credits
 
 Metalsmith-prismic-template is licensed with [MIT License](LICENSE.md). It was developed by Futurice in co-operation with our customers [Finavia](http://www.finavia.fi/) and [Clear Funding](http://clearfunding.com/).
