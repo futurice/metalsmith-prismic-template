@@ -8,11 +8,9 @@
 
 Design your custom types carefully, it’s tedious to change later when you have content and collaborate with the content creators early!
 
-Prismic does not version custom types. Just to be safe, it might be a good idea to keep manual copies in `prismic-custom-types`.
+Prismic does not version custom types. To be safe and track changes, it's a good idea to keep manual copies in `prismic-custom-types`. Each file should be named in the format <custom type name>.json.
 
 Custom types are defined as JSON files in the Prismic.io settings and should in this project follow the conventions outlined below.
-
-
 
 ## Prismic.io Fragments
 
@@ -126,9 +124,9 @@ Should be used for full content pages, such as blog posts. Includes all styling 
 
 ### Other notes on custom types
 
-  * Prismic does *not* support nested lists in fragments
-    * You can’t put a group within a group
-    * You can’t use the array notation within a group
+* Prismic does *not* support nested lists in fragments
+  * You can’t put a group within a group
+  * You can’t use the array notation within a group
 
 
 ## Media library
@@ -143,6 +141,9 @@ Prismic's recommendation for i18n is explained [here](https://qa.prismic.io/29/w
 Each document should have only one language tag of the format: `language:<ISO 639-1 language code>`, e.g. `language:fi`.
 
 
+## Development and Production environments
+
+We recommend keeping two copies of your Prismic repositories: development and production. After development ends and all production data is entered into a repository, you can ask Prismic.io to copy your repository. As default in development you should use the production Prismic content. But when changes to Prismic content are needed (especially custom types), you can switch to the development Prismic repository and freely play around with the content and try custom types changes. Changes that should go into production can be documented with the custom-type backups. When the changes are tested, they can be copied to the production Prismic repository.
 
 ## Resources
 
