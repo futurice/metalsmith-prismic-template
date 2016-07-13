@@ -12,10 +12,12 @@ An opinionated, bare bones template for static site generation from [prismic.io]
   * Provides a server endpoint to preview unpublished content in Prismic.io
   * Provides a live reloading development mode that fetches Prismic.io content
 * [Deployment to AWS S3](https://github.com/mwishek/metalsmith-s3)
-* [Prismic.io example content](https://metalsmith-prismic-template.prismic.io/)
-  * [Example content in API browser](https://metalsmith-prismic-template.prismic.io/api/)
+* Prismic.io example content
+  * [Example content in API browser](https://metalsmith-prismic-template.prismic.io/api)
+    * Leave the query parameter empty to see all content
   * [Generated example site deployed to S3](http://metalsmith-prismic-template.futurice.com/)
-  * [Published content also running in Heroku](https://metalsmith-prismic.herokuapp.com/builds/preview/master/)
+  * [Only for Futurice employees: Example content in Prismic.io](https://metalsmith-prismic-template.prismic.io/)
+    * Changes to Prismic content can be previewed here with the eye icon
 
 ![overview architecture](docs/architecture.png)
 
@@ -26,7 +28,7 @@ An opinionated, bare bones template for static site generation from [prismic.io]
 * Run `npm install`
 * Copy `.env.tmpl` and rename to `.env` (this will be ignored by git)
 * Optional: Run `npm run dev` to test this template with example data
-* Set up a Prismic.io
+* Set up Prismic.io
   * Create a repository
   * Setup API & Security in Prismic.io settings
     * Create a new app at **Settings** > **API & Security** > **Create a new Application**. No need to provide a callback URL.
@@ -42,9 +44,10 @@ An opinionated, bare bones template for static site generation from [prismic.io]
     * `PRISMIC_SECRET={PRISMIC_WEBHOOK_SECRET}`
   * Setup custom types in Prismic settings
     * See `docs/prismic-conventions` for best practices
-    * See `prismic-custom-types/` for this example repositories custom type json files.
+    * See `prismic-custom-types/` for this example repositories custom type json files, that can be copied to your Prismic repository
   * Create your own content
     * Go to the "Everything" tab and "Write something"
+    * This repositories example content and their tags can be seen from the [API browser](https://metalsmith-prismic-template.prismic.io/api) by leaving the query parameter empty
 * Setup Amazon S3
   * Create an account
   * Create IAM tokens
